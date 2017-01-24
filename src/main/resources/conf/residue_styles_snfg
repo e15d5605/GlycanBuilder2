@@ -1,0 +1,165 @@
+%text style data in SNFG monosaccharide symbol
+%blue : 100,50,0,0 : 0,128,255
+%green : 100,0,100,0 : 0,255,0
+%yellow : 0,15,100,0 : 255,217,0
+%orange : 0,50,100,0 : 255,127,0
+%pink : 0,47,24,0 : 255,135,194
+%purple : 38,88,0,0 : 158,31,255
+%light blue : 41,5,3,0 : 150,242,247
+%brown : 32,48,76,13 : 151,115,53
+%red : 0,100,100,0 : 255,0,0
+	
+%name	Shape	ShapeColor	Fill	FillNegative	FillColor	Text	TextColor
+%Basetypes
+Pentose				star		0,0,0	full		no	255,255,255	-	0,0,0
+Di-deoxyhexose		flatsquare	0,0,0	full		no	255,255,255	-	0,0,0
+Hexosamine			square		0,0,0	topright	no	255,255,255	-	0,0,0
+Hexose				circle		0,0,0	full		no	255,255,255	-	0,0,0
+N-Acetylhexosamine	square		0,0,0	full		no	255,255,255	-	0,0,0
+Hexuronic acid		diamond		0,0,0	top			no	255,255,255	-	0,0,0
+6-deoxy-Hex			triangle	0,0,0	full		no	255,255,255	-	0,0,0
+6-deoxy-HexNAc		triangle	0,0,0	right		no	255,255,255	-	0,0,0
+Nonulosonate		diamond		0,0,0	full		no	255,255,255	-	0,0,0
+Assigned			pentagon	0,0,0	full		no	255,255,255	-	0,0,0
+%Unknown			hexagon		0,0,0	full		no	255,255,255	-	0,0,0
+
+%pentose(start)
+Pen	star	0,0,0	full	no	255,255,255	-	0,0,0
+Ara	star	0,0,0	full	no	0,255,0	-	0,0,0
+Lyx	star	0,0,0	full	no	255,217,0	-	0,0,0
+Xyl	star	0,0,0	full	no	255,127,0	-	0,0,0
+Rib	star	0,0,0	full	no	255,135,194	-	0,0,0
+
+%mono(di)-deoxy hexose
+ddHex	flatsquare	0,0,0	full	no	255,255,255	-	0,0,0
+Oli	flatsquare	0,0,0	full	no	0,128,255	-	0,0,0
+Tyv	flatsquare	0,0,0	full	no	0,255,0	-	0,0,0
+Abe	flatsquare	0,0,0	full	no	255,127,0	-	0,0,0
+Par	flatsquare	0,0,0	full	no	255,135,194	-	0,0,0
+Dig	flatsquare	0,0,0	full	no	158,31,255	-	0,0,0
+Col	flatsquare	0,0,0	full	no	150,242,247	-	0,0,0
+
+%Hexosamine
+HexN	square	0,0,0	topright	no	255,255,255	-	0,0,0
+GlcN	square	0,0,0,	topright	no	0,128,255	-	0,0,0
+ManN	square	0,0,0,	topright	no	0,255,0	-	0,0,0
+GalN	square	0,0,0,	topright	no	255,217,0	-	0,0,0
+GulN	square	0,0,0,	topright	no	255,127,0	-	0,0,0
+AltN	square	0,0,0,	topright	no	255,135,194	-	0,0,0
+AllN	square	0,0,0,	topright	no	158,31,255	-	0,0,0
+TalN	square	0,0,0,	topright	no	150,242,247	-	0,0,0
+IdoN	square	0,0,0,	topright	no	151,115,53	-	0,0,0
+
+%hexose
+Hex	circle	0,0,0	full	no	255,255,255	-	0,0,0
+Glc	circle	0,0,0	full	no	0,128,255	-	0,0,0
+Man	circle	0,0,0	full	no	0,255,0	-	0,0,0
+Gal	circle	0,0,0	full	no	255,217,0	-	0,0,0
+Gul	circle	0,0,0	full	no	255,127,0	-	0,0,0
+Alt	circle	0,0,0	full	no	255,135,194	-	0,0,0
+All	circle	0,0,0	full	no	158,31,255	-	0,0,0
+Tal	circle	0,0,0	full	no	150,242,247	-	0,0,0
+Ido	circle	0,0,0	full	no	151,115,53	-	0,0,0
+
+%NAc
+HexNAc	square	0,0,0	full	no	255,255,255	-	0,0,0
+GlcNAc	square	0,0,0	full	no	0,128,255	-	0,0,0
+ManNAc	square	0,0,0	full	no	0,255,0	-	0,0,0
+GalNAc	square	0,0,0	full	no	255,217,0	-	0,0,0
+GulNAc	square	0,0,0	full	no	255,127,0	-	0,0,0
+AltNAc	square	0,0,0	full	no	255,135,194	-	0,0,0
+AllNAc	square	0,0,0	full	no	158,31,255	-	0,0,0
+TalNAc	square	0,0,0	full	no	150,242,247	-	0,0,0
+IdoNAc	square	0,0,0	full	no	151,115,53	-	0,0,0
+
+%Hexuronate
+dHexA	diamond	0,0,0	top	no	255,255,255	d	0,0,0
+HexA	diamond	0,0,0	top	no	255,255,255	-	0,0,0
+GlcA	diamond	0,0,0	top	no	0,128,255	-	0,0,0
+ManA	diamond	0,0,0	top	no	0,255,0	-	0,0,0
+GalA	diamond	0,0,0	top	no	255,217,0	-	0,0,0
+GulA	diamond	0,0,0	top	no	255,127,0	-	0,0,0
+AltA	diamond	0,0,0	bottom	no	255,135,194	-	0,0,0
+AllA	diamond	0,0,0	top	no	158,31,255	-	0,0,0
+TalA	diamond	0,0,0	top	no	150,242,247	-	0,0,0
+IdoA	diamond	0,0,0	bottom	no	151,115,53	-	0,0,0
+
+%deoxy hexose
+dHex	triangle	0,0,0	full	no	255,255,255	-	0,0,0
+Qui		triangle	0,0,0	full	no	0,128,255	-	0,0,0
+Rha		triangle	0,0,0	full	no	0,255,0		-	0,0,0
+dAlt	triangle	0,0,0	full	no	255,135,194	-	0,0,0	
+dTal	triangle	0,0,0	full	no	150,242,247	-	0,0,0
+Fuc		triangle	0,0,0	full	no	255,0,0		-	0,0,0
+
+%half triangle
+dHexNAc	triangle	0,0,0	right	no	255,255,255	-	0,0,0
+QuiNAc	triangle	0,0,0	right	no	0,128,255	-	0,0,0
+RhaNAc	triangle	0,0,0	right	no	0,255,0	-	0,0,0
+FucNAc	triangle	0,0,0	right	no	255,0,0	-	0,0,0
+
+%Nonulosanate
+Non	diamond	0,0,0	full	no	255,255,255	-	0,0,0
+Kdn	diamond	0,0,0	full	no	0,255,0	-	0,0,0
+NeuAc	diamond	0,0,0	full	no	158,31,255	-	0,0,0
+NeuGc	diamond	0,0,0	full	no	150,242,247	-	0,0,0
+Neu	diamond	0,0,0	full	no	151,115,53	-	0,0,0
+
+%Other
+Hep				flathexagon	0,0,0	full	no	255,255,255	-	0,0,0
+%Hep				flathexagon	0,0,0	full	no	255,153,255	-	0,0,0
+Bac				flathexagon	0,0,0	full	no	0,128,255	-	0,0,0
+L-gro-D-manHep	flathexagon	0,0,0	full	no	0,255,0		-	0,0,0
+Kdo				flathexagon	0,0,0	full	no	255,217,0	-	0,0,0
+Dha				flathexagon	0,0,0	full	no	255,127,0	-	0,0,0
+D-gro-D-manHep	flathexagon	0,0,0	full	no	255,135,194	-	0,0,0
+MurNAc			flathexagon	0,0,0	full	no	158,31,255	-	0,0,0
+MurNGc			flathexagon	0,0,0	full	no	150,242,247	-	0,0,0
+Mur				flathexagon	0,0,0	full	no	151,115,53	-	0,0,0
+Unknown			flathexagon	0,0,0	full	no	255,255,255	-	0,0,0
+
+%ketose
+Ketose	pentagon	0,0,0	full	no	255,255,255	-	0,0,0
+Api	pentagon	0,0,0	full	no	0,128,255	-	0,0,0
+Fru	pentagon	0,0,0	full	no	0,255,0	-	0,0,0
+Tag	pentagon	0,0,0	full	no	255,172,0	-	0,0,0
+Sor	pentagon	0,0,0	full	no	255,127,0	-	0,0,0
+Psi	pentagon	0,0,0	full	no	255,135,194	-	0,0,0
+
+%
+freeEnd	end	0,0,0	empty	no	0,0,0	-	0,0,0
+redEnd	end	0,0,0	empty	no	0,0,0	-	0,0,0
+
+%redEnd	-	0,0,0	empty	no	0,0,0	ol	0,0,0
+PA	-	0,0,0	empty	no	255,255,255	PA	0,0,0
+2AP	-	0,0,0	empty	no	255,255,255	2AP	0,0,0
+2AB	-	0,0,0	empty	no	255,255,255	2AB	0,0,0
+AA	-	0,0,0	empty	no	255,255,255	AA	0,0,0
+%
+DAP	-	0,0,0	empty	no	255,255,255	DAP	0,0,0
+4AB	-	0,0,0	empty	no	255,255,255	4AB	0,0,0
+DAPMAB	-	0,0,0	empty	no	255,255,255	DAPMAB	0,0,0
+AMC	-	0,0,0	empty	no	255,255,255	AMC	0,0,0
+6AQ	-	0,0,0	empty	no	255,255,255	6AQ	0,0,0
+2AAc	-	0,0,0	empty	no	255,255,255	2AAc	0,0,0
+FMC	-	0,0,0	empty	no	255,255,255	FMC	0,0,0
+DH	-	0,0,0	empty	no	255,255,255	DH	0,0,0
+
+%Substituent
+Me	-	0,0,0	empty	no	255,255,255	Me	0,0,0
+Ac	-	0,0,0	empty	no	255,255,255	Ac	0,0,0
+NAc	-	0,0,0	empty	no	255,255,255	NAc	0,0,0
+Pv	-	0,0,0	empty	no	255,255,255	Pv	0,0,0
+P	-	0,0,0	empty	no	255,255,255	P	0,0,0
+S	-	0,0,0	empty	no	255,255,255	S	0,0,0
+Pyr	-	0,0,0	empty	no	255,255,255	PYR	0,0,0
+PC	-	0,0,0	empty	no	255,255,255	PC	0,0,0
+Ino	-	0,0,0	empty	no	255,255,255	Ino	0,0,0
+PPEtn	-	0,0,0	empty	no	255,255,255	PPEtn	0,0,0
+PEtn	-	0,0,0	empty	no	255,255,255	PEtn	0,0,0
+N	-	0,0,0	empty	no	255,255,255	N	0,0,0
+
+%modification
+deoxy	-	0,0,0	empty	no	255,255,255	d	0,0,0
+un	-	0,0,0	empty	no	255,255,255	un	0,0,0
+aldi	-	0,0,0	empty	no	255,255,255	aldi	0,0,0
