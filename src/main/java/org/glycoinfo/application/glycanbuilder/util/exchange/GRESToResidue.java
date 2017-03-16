@@ -50,6 +50,7 @@ public class GRESToResidue {
 		
 		GRESToTrivialName a_oGRESToTrivialName = new GRESToTrivialName();
 		a_oGRESToTrivialName.start(getGRES());
+		
 		String a_sTrivialName = a_oGRESToTrivialName.getTrivialName().replace("5", "");
 		Residue a_oRES = ResidueDictionary.newResidue(a_sTrivialName);
 		

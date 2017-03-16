@@ -6,7 +6,6 @@ import java.util.LinkedList;
 import org.eurocarbdb.application.glycanbuilder.Glycan;
 import org.eurocarbdb.application.glycanbuilder.Residue;
 import org.eurocarbdb.application.glycanbuilder.dataset.ResidueDictionary;
-import org.eurocarbdb.application.glycanbuilder.linkage.Bond;
 import org.eurocarbdb.application.glycanbuilder.linkage.Linkage;
 import org.eurocarbdb.application.glycanbuilder.massutil.MassOptions;
 import org.glycoinfo.WURCSFramework.util.WURCSFactory;
@@ -38,15 +37,10 @@ public class WURCSSequence2ToGlycan {
 			this.analyzeGRES(a_oGRES);
 			if(a_oWS2.getGRESs().size() > 1) 
 				a_oGRESToFragment.start(a_oGRES, this.a_mGRESToResidue.get(a_oGRES));
-			if(a_oGRESToFragment.getParents().size() > 1) {
-				for(GRES a_oParent : a_oGRESToFragment.getParents()) {
-					this.a_mGRESToResidue.get(a_oGRES).addParentOfFragment(this.a_mGRESToResidue.get(a_oParent));
-				}
-			}
 		}
 				
 		for(GRES a_oGRES : a_oWS2.getGRESs()) {
-			this.analyzeGLIN(a_oGRES, a_oWA.getLINs());
+			this.analyzeGLIN(a_oGRES, a_oWA.getLINs());			
 		}
 		
 		this.a_oGlycan = new Glycan(makeRoot(a_oWS2.getGRESs()), false, a_oMO);
@@ -99,8 +93,8 @@ public class WURCSSequence2ToGlycan {
 		
 		/** define glycosidic bond*/
 		Residue a_oCurrent = this.a_mGRESToResidue.get(a_oGRES);
-		Residue a_oParent = a_oG2L.getParent().size() > 0 ? 
-				this.a_mGRESToResidue.get(a_oG2L.getParent().get(0)) : null;
+		Residue a_oParent = a_oG2L.getParents().size() > 0 ? 
+				this.a_mGRESToResidue.get(a_oG2L.getParents().get(0)) : null;
 		Residue a_oStart = this.a_mGRESToResidue.get(a_oG2L.getStartRepeatingGRES());
 
 		LinkageConnector a_oLinkageConnector = 
@@ -108,6 +102,13 @@ public class WURCSSequence2ToGlycan {
 		
 		a_oLinkageConnector.start(a_oG2L);
 
+		/** set parents for fragments */
+		if(a_oG2L.getParents().size() > 1) {
+			for(GRES a_oParentG : a_oG2L.getParents()) {
+				this.a_mGRESToResidue.get(a_oGRES).addParentOfFragment(this.a_mGRESToResidue.get(a_oParentG));
+			}
+		}
+		
 		return;
 	}
 	
@@ -117,24 +118,15 @@ public class WURCSSequence2ToGlycan {
 		Residue a_oRedEnd = null;
 		
 		if(a_oRoot == null) return a_oRedEnd;
-		/*if(a_oRoot.hasChildren()) {
-			for(Linkage a_oLIN : a_oRoot.getChildrenLinkages()) {
-				if(a_oLIN.getChildPositionsSingle() == a_oLIN.getChildResidue().getAnomericCarbon() && 
-					a_oLIN.getParentPositionsSingle() == a_oRoot.getAnomericCarbon())
-					return a_oRoot;
-			}
-		}*/
+	
 		
-		//if(a_oRoot.getStartCyclicResidue() == null) {
-			a_oRedEnd = a_oRoot.isAlditol() && a_oRoot.getStartRepetitionResidue() == null ?
-					ResidueDictionary.newResidue("redEnd") : ResidueDictionary.newResidue("freeEnd");
-		//}else return a_oRoot.getStartCyclicResidue();
+		a_oRedEnd = a_oRoot.isAlditol() && a_oRoot.getStartRepetitionResidue() == null ?
+				ResidueDictionary.newResidue("redEnd") : ResidueDictionary.newResidue("freeEnd");
 		
 		if(a_oRoot.getStartRepetitionResidue() != null) {			
 			a_oRedEnd.addChild(a_oRoot.getStartRepetitionResidue(), a_oRoot.getStartRepetitionResidue().getParentLinkage().getBonds());
 		}else if (a_oRoot.getStartCyclicResidue() != null){
-			//a_oRedEnd = a_oRoot.getStartCyclicResidue();
-			a_oRedEnd.addChild(a_oRoot.getStartCyclicResidue(), '?');// a_oRoot.getStartCyclicResidue().getParentLinkage().getBonds());
+			a_oRedEnd.addChild(a_oRoot.getStartCyclicResidue(), '?');
 		}else {
 			Linkage a_oLIN = new Linkage(a_oRedEnd, a_oRoot);
 			a_oLIN.setLinkagePositions(new char[] {a_oRoot.getAnomericCarbon()});
@@ -146,11 +138,6 @@ public class WURCSSequence2ToGlycan {
 	}
 	
 	private GRES getRootResidue(LinkedList<GRES> a_oGRESs) {
-		/*if(a_oGRESs.size() == 1) {
-			if(a_oGRESs.getFirst().getMS().getCoreStructure().getAnomericSymbol() != '?')
-				return a_oGRESs.getFirst();
-		}*/
-		
 		for(GRES a_oGRES : a_oGRESs) {
 			if(this.a_oGRESToFragment.getRootOfCompositions().contains(a_oGRES)) continue;
 			
@@ -169,9 +156,6 @@ public class WURCSSequence2ToGlycan {
 				if(!new GLINToLinkage().isFacingBetweenAnomer(a_Donor)) {
 					if(a_oAcceptor.getAcceptor().get(0).getID() == 1 && a_Donor.getDonor().get(0).getID() == 1)
 						return a_oGRES;
-					/*if(a_oGRES.getID() > a_oAcceptor.getDonor().get(0).getID()) {
-						return a_oGRES;
-					}*/
 					if(a_oGRES.getID() > a_Donor.getAcceptor().get(0).getID()) {
 						return a_oGRES;
 					}

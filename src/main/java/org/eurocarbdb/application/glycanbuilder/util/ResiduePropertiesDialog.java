@@ -107,8 +107,8 @@ public class ResiduePropertiesDialog extends EscapeDialog implements java.awt.ev
     		field_second_parent_position.setModel(createPositions(parent_link.getParentResidue()));
     	field_second_child_position.setModel(new DefaultComboBoxModel(new String[] { "?", "1", "2", "3" }));
     	
-    	field_LinkageType_head.setModel(new DefaultComboBoxModel(new String[] {"h", "d", "o", "x", "n", "s", "r", "u"}));
-    	field_LinkageType_tail.setModel(new DefaultComboBoxModel(new String[] {"h", "d", "o", "x", "n", "s", "r", "u"}));
+    	field_LinkageType_head.setModel(new DefaultComboBoxModel(new String[] {"H_LOSE", "DEOXY", "H_AT_OH", "UNKNOWN", "NONMONOSACCHARID", "S_CONFIG", "R_CONFIG", "UNVALIDATED"}));
+    	field_LinkageType_tail.setModel(new DefaultComboBoxModel(new String[] {"H_LOSE", "DEOXY", "H_AT_OH", "UNKNOWN", "NONMONOSACCHARID", "S_CONFIG", "R_CONFIG", "UNVALIDATED"}));
     	field_max.setText("100");
     	field_min.setText("100");
     }
@@ -148,8 +148,8 @@ public class ResiduePropertiesDialog extends EscapeDialog implements java.awt.ev
     	
     	field_max.setText(String.valueOf(current.getParentLinkage().getBonds().get(0).getProbabilityHigh()));
     	field_min.setText(String.valueOf(current.getParentLinkage().getBonds().get(0).getProbabilityLow()));
-    	field_LinkageType_head.setSelectedItem("" + "h");
-    	field_LinkageType_tail.setSelectedItem("" + "h");
+    	field_LinkageType_head.setSelectedItem("UNVALIDATED");
+    	field_LinkageType_tail.setSelectedItem("UNVALIDATED");
     }
 
     private void selectPositions(JList field, char[] pos) {
@@ -183,7 +183,7 @@ public class ResiduePropertiesDialog extends EscapeDialog implements java.awt.ev
     	tp.addComponent(field_min);
     	tp.addComponent(field_max);    	
     	tp.addComponent(field_LinkageType_head);
-    	tp.addComponent(field_LinkageType_head);
+    	tp.addComponent(field_LinkageType_tail);
     	
     	tp.addComponent(button_ok);
     	tp.addComponent(button_cancel);
@@ -216,8 +216,8 @@ public class ResiduePropertiesDialog extends EscapeDialog implements java.awt.ev
     	field_max.setEnabled(current.hasParent() && (!current.isRepetition()));
     	field_min.setEnabled(current.hasParent() && (!current.isRepetition()));
     	
-    	field_LinkageType_head.setEnabled(current.hasParent() && (current.getType().getSuperclass().equals("Bridge") || current.isSubstituent()));
-    	field_LinkageType_tail.setEnabled(current.hasChildren() && (current.getType().getSuperclass().equals("Bridge") || current.isSubstituent()));
+    	field_LinkageType_head.setEnabled(current.hasParent());
+    	field_LinkageType_tail.setEnabled(current.hasChildren() && current.getType().getSuperclass().equals("Bridge"));
     }    
 
     private void setProperties(Residue r) {
@@ -286,11 +286,18 @@ public class ResiduePropertiesDialog extends EscapeDialog implements java.awt.ev
     	}
     	
     	try {
-    		char a_cLinkageType_head = getSelectedValueChar(field_LinkageType_head);
-    		char a_cLinkageType_tail = getSelectedValueChar(field_LinkageType_tail);
-    		r.getParentLinkage().setChildLinkageType(LinkageType.forName(a_cLinkageType_tail));
-			r.getParentLinkage().setParentLinkageType(LinkageType.forName(a_cLinkageType_head));
-		} catch (Exception e) {
+    		String a_sLinkageType_head = (String) field_LinkageType_head.getSelectedItem();
+    		String a_sLinkageType_tail = (String) field_LinkageType_tail.getSelectedItem();
+    		
+    		for(LinkageType a : LinkageType.values()) {
+    			if(a.toString().equals(a_sLinkageType_head)) {
+    				r.getParentLinkage().setParentLinkageType(a);
+    			}
+    			if(a.toString().equals(a_sLinkageType_tail)) {
+    				r.getParentLinkage().setChildLinkageType(a);
+    			}
+    		}
+    	} catch (Exception e) {
     		e.printStackTrace();
 		}
     }
@@ -450,9 +457,9 @@ public class ResiduePropertiesDialog extends EscapeDialog implements java.awt.ev
         //field_min.setModel(new SpinnerNumberModel(0, 0, 100, 1));
         
         jLabelh.setText("Linkage type(Parent)");
-        field_LinkageType_head.setModel(new DefaultComboBoxModel(new String[] {"h", "d", "o", "x", "n", "s", "r", "u"}));
+        field_LinkageType_head.setModel(new DefaultComboBoxModel(new String[] {"H_LOSE", "DEOXY", "H_AT_OH", "UNKNOWN", "NONMONOSACCHARID", "S_CONFIG", "R_CONFIG", "UNVALIDATED"}));
         jLabelt.setText("Linkage type(Child)");
-        field_LinkageType_tail.setModel(new DefaultComboBoxModel(new String[] {"h", "d", "o", "x", "n", "s", "r", "u"}));        
+        field_LinkageType_tail.setModel(new DefaultComboBoxModel(new String[] {"H_LOSE", "DEOXY", "H_AT_OH", "UNKNOWN", "NONMONOSACCHARID", "S_CONFIG", "R_CONFIG", "UNVALIDATED"}));        
         
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this.getContentPane());
         this.getContentPane().setLayout(layout);
@@ -513,12 +520,12 @@ public class ResiduePropertiesDialog extends EscapeDialog implements java.awt.ev
                     	.addContainerGap()
                     	.add(jLabelh, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
                     	.addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 23, Short.MAX_VALUE)
-                    	.add(field_LinkageType_head, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 66, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    	.add(field_LinkageType_head, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 120, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                     	.addContainerGap()
                     	.add(jLabelt, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
                     	.addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 23, Short.MAX_VALUE)
-                    	.add(field_LinkageType_tail, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 66, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    	.add(field_LinkageType_tail, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 120, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                     .add(layout.createSequentialGroup()
                         .addContainerGap()
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)

@@ -28,7 +28,7 @@ public class LinkageConnector {
 	public void start(GLINToLinkage a_oG2L) {
 		Residue a_oRES = this.a_oCurrentRES;
 		Residue a_oSUB = null;
-
+		
 		/** set parent linkage for current residue*/
 		if(!a_oG2L.getParentLinkage().isEmpty()) {
 			if(a_oG2L.getBridgeLinkage() != null) {
@@ -45,7 +45,7 @@ public class LinkageConnector {
 		}
 			
 		if(a_oG2L.getDonorGLINs().isEmpty()) return;
-		if(a_oG2L.getParent().size() > 1) return;
+		if(a_oG2L.getParents().size() > 1) return;
 		
 		if(a_oG2L.isCyclic() == false && a_oG2L.isRepeating() == false) {
 			/** add child edge between child and parent residues */				
@@ -108,7 +108,7 @@ public class LinkageConnector {
 				/** start repeat to monosaccharide : o-]<->o */
 				a_oParent.addChild(a_oStartRep, a_oStartRep.getParentLinkage().getBonds());
 			}
-		}else if(a_oRES.getStartCyclicResidue() == null && !a_oG2L.getParent().isEmpty()){
+		}else if(a_oRES.getStartCyclicResidue() == null && !a_oG2L.getParents().isEmpty()){
 			Residue a_oParent = this.a_oParentRES;
 			if(this.isOutRepeating(a_oRES, a_oParent)) {
 				/** end repeating bracket to monosaccharide : o<->[-o */

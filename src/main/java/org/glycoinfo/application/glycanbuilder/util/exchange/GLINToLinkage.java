@@ -1,5 +1,6 @@
 package org.glycoinfo.application.glycanbuilder.util.exchange;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import org.eurocarbdb.application.glycanbuilder.Residue;
@@ -16,7 +17,7 @@ public class GLINToLinkage {
 
 	private LinkedList<GLIN> a_aAcceptorGLINs;
 	private LinkedList<GLIN> a_aDonorGLINs;
-	private LinkedList<GRES> a_aAcceptorGRESs;
+	private ArrayList<GRES> a_aAcceptorGRESs;
 	private GRES a_oDonorGRES;
 	
 	private GRES a_oStartGRES;
@@ -40,10 +41,7 @@ public class GLINToLinkage {
 	private int a_iMin = 0;
 	private int a_iMax = 0;
 	
-	//private boolean a_bIsCyclic;
-	//private boolean a_bIsRepeating;
 	private boolean a_bIsReverse;
-	private boolean a_bIsAlternative;
 	
 	public GLINToLinkage() {
 		
@@ -92,7 +90,7 @@ public class GLINToLinkage {
 		return this.a_oStartGRES;
 	}
 	
-	public LinkedList<GRES> getParent() {
+	public ArrayList<GRES> getParents() {
 		return this.a_aAcceptorGRESs;
 	}
 	
@@ -118,12 +116,10 @@ public class GLINToLinkage {
 	
 	public boolean isRepeating() {
 		return (a_oRepeatingChildLinkage != null || a_oRepeatingParentLinkage != null);
-		//return this.a_bIsRepeating;
 	}
 	
 	public boolean isCyclic() {
 		return (a_oCyclicChildLinkage != null || a_oCyclicParentLinkage != null);
-		//return this.a_bIsCyclic;
 	}
 	
 	public String getMaxRepeatingCount () {
@@ -250,7 +246,6 @@ public class GLINToLinkage {
 		}
 					
 		this.a_oStartGRES = a_oAGLIN.getDonor().get(0);
-		//this.setRepeating();
 		
 		return;
 	}
@@ -264,8 +259,6 @@ public class GLINToLinkage {
 		this.a_oRepeatingParentLinkage = new Linkage(null, this.a_oChildRES, a_caPositions);		
 		this.a_oRepeatingParentLinkage.setAnomericCarbon(this.makeLinkagePosiiton(a_oDGLIN.getDonorPositions())[0]);
 		
-		//this.setRepeating();
-		
 		return;
 	}
 	
@@ -278,8 +271,6 @@ public class GLINToLinkage {
 		
 		this.a_oEndGRESinCyclic = a_oDGLIN.getAcceptor().get(0);
 		
-		//this.setCyclic();
-		
 		return;
 	}
 	
@@ -291,7 +282,6 @@ public class GLINToLinkage {
 	
 		this.a_oStartGRESInCyclic = a_oAGLIN.getDonor().get(0);
 		
-		//this.setCyclic();
 		return;
 	}
 	
@@ -321,32 +311,28 @@ public class GLINToLinkage {
 		this.a_aParentLinkages = a_aLinkages;
 	}
 	
-	//public void setRepeating() {
-	//	this.a_bIsRepeating = true;
-	//}
-	
-	//public void setCyclic() {
-	//	this.a_bIsCyclic = true;
-	//}
-	
 	public void setGRESs(GRES a_oGRES) {
 		this.a_oDonorGRES = a_oGRES;
 		
 		/** for reverse antenna */
 		if(!a_oGRES.getAcceptorGLINs().isEmpty()) {
-			for(GRES a_oDGRES : a_oGRES.getAcceptorGLINs().getFirst().getDonor()) { 
-				if(a_oDGRES.getID() == a_oGRES.getID()) this.a_bIsAlternative = true;
+			LinkedList<GLIN> a_aGLINs = a_oGRES.getAcceptorGLINs();
+			if(a_aGLINs.getFirst().getDonor().contains(a_oGRES)) {
+				this.a_aAcceptorGRESs.addAll(a_aGLINs.getFirst().getDonor());
+			}else {
+				for(GRES a_oDGRES : a_aGLINs.getFirst().getDonor()) { 
 				if(a_oDGRES.getID() - a_oGRES.getID() == 1) continue;
 					this.a_aAcceptorGRESs.add(a_oDGRES);
+				}
+				this.a_bIsReverse = (this.a_aAcceptorGRESs.size() > 1);
+				if(!this.a_bIsReverse) this.a_aAcceptorGRESs.clear();
 			}
-			this.a_bIsReverse = (this.a_aAcceptorGRESs.size() > 1);
 		}
-		
-		if(!this.a_bIsReverse || !this.a_bIsAlternative) this.a_aAcceptorGRESs.clear();
 		
 		for(GLIN a_oDGLIN : a_oGRES.getDonorGLINs()) {
 			if(a_oDGLIN.isRepeat()) continue;
 			for(GRES a_oAGRES : a_oDGLIN.getAcceptor()) {
+				if(this.a_aAcceptorGRESs.contains(a_oAGRES)) continue;
 				if(a_oGRES.getID() - a_oAGRES.getID() > 0) this.a_aAcceptorGRESs.add(a_oAGRES);
 				/** for facing fructose*/
 				if(a_oAGRES.getID() - a_oGRES.getID() == 1) this.a_aAcceptorGRESs.add(a_oAGRES);
@@ -405,14 +391,12 @@ public class GLINToLinkage {
 	}
 	
 	private void init() {
-		this.a_aAcceptorGRESs = new LinkedList<GRES>();
+		this.a_aAcceptorGRESs = new ArrayList<GRES>();
 		this.a_aAcceptorGLINs = new LinkedList<GLIN>();
 		this.a_aDonorGLINs = new LinkedList<GLIN>();
 		this.a_aChildLinkages = new LinkedList<Linkage>();
 		this.a_aParentLinkages = new LinkedList<Linkage>();
 		
-		//this.a_bIsCyclic = false;
-		//this.a_bIsRepeating = false;
 		this.a_bIsReverse = false;
 	}
 }

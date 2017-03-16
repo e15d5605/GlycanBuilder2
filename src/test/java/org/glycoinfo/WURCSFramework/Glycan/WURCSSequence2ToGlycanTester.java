@@ -35,7 +35,9 @@ public class WURCSSequence2ToGlycanTester {
 				//"WURCS=2.0/7,10,9/[h2122h_2*NCC/3=O][a2122h-1b_1-5_2*NCC/3=O][a1122h-1b_1-5][a1122h-1a_1-5][a2122h-1x_1-5_2*NCC/3=O][a1221m-1x_1-5][a2112h-1x_1-5]/1-2-3-4-4-5-6-7-5-7/a4-b1_b4-c1_c3-d1_c6-e1_f?-g1_f?-h1_i?-j1_f1-a?|b?|c?|d?|e?}_i1-a?|b?|c?|d?|e?}";
 				
 				//"WURCS=2.0/9,20,19/[a2122h-1x_1-5_2*NCC/3=O][a2122h-1b_1-5_2*NCC/3=O][a1122h-1b_1-5][a1122h-1a_1-5][a2112h-1b_1-5][a2112h-1a_1-5][Aad21122h-2a_2-6_5*NCCO/3=O][Aad21122h-2a_2-6_5*NCC/3=O][a1221m-1a_1-5]/1-2-3-4-2-5-6-2-5-2-4-2-5-2-5-7-2-5-8-9/a4-b1_a6-t1_b4-c1_c3-d1_c4-j1_c6-k1_d2-e1_d4-h1_e4-f1_f3-g1_h4-i1_k2-l1_k6-q1_l4-m1_m3-n1_n4-o1_q4-r1_p2-o3|o6_s2-r3|r6";
-				"WURCS=2.0/2,2,1/[a2112h-1x_1-5][a2112h-1a_1-5_3*C]/1-2/a4-b1";
+				//"WURCS=2.0/2,2,1/[a2112h-1x_1-5][a2112h-1a_1-5_3*C]/1-2/a4-b1";
+				//"WURCS=2.0/1,1,0/[Aad21122h-2a_2-6_5*NCC/3=O_9*ON]/1/";
+				"WURCS=2.0/2,2,1/[a1221m-1x_1-5_2*NCN/3=N][Aad12212m-2a_2-6_5*NCC/3=O_7*NCC/3=O]/1-2/a3-b2";
 				
 		WURCSSequence2ToGlycan a_oWG2G = new WURCSSequence2ToGlycan();
 		WURCSFactory a_oWF = new WURCSFactory(a_sInput);

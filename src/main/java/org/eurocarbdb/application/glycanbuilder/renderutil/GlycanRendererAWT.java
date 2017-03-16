@@ -34,6 +34,7 @@ import org.eurocarbdb.application.glycanbuilder.dataset.ResiduePlacementDictiona
 import org.eurocarbdb.application.glycanbuilder.linkage.Linkage;
 import org.eurocarbdb.application.glycanbuilder.linkage.LinkageStyleDictionary;
 import org.eurocarbdb.application.glycanbuilder.util.GraphicOptions;
+import org.glycoinfo.application.glycanbuilder.util.GlycanUtils;
 
 /**
  * Objects of this class are used to create a graphical representation of a
@@ -86,22 +87,9 @@ public class GlycanRendererAWT extends AbstractGlycanRenderer {
 		if (structure == null || structure.isEmpty())
 			return;
 
-		if(!structure.isComposition()) {
-			Residue a_oRoot = structure.getRoot().firstChild();
-			if(a_oRoot.isSaccharide()) {
-				for(Linkage a_oLIN : a_oRoot.getChildrenLinkages()) {
-					if(!a_oLIN.getChildResidue().isSaccharide() && 
-							!a_oLIN.getChildResidue().getType().getSuperclass().equals("Bridge")) continue;
-					if(a_oLIN.getChildPositionsSingle() == a_oLIN.getChildResidue().getAnomericCarbon() && 
-							a_oLIN.getParentPositionsSingle() == a_oRoot.getAnomericCarbon())
-						show_redend = false;
-				}
-			}
-			if(a_oRoot.isStartCyclic()) show_redend = false;
-			if(theGraphicOptions.NOTATION.equals(GraphicOptions.NOTATION_SNFG)) {
-				if(structure.getRoot().firstChild().isAlditol()) show_redend = false;
-			}
-		}
+		boolean a_bIsAlditol = show_redend;
+		if(!structure.isComposition())
+			a_bIsAlditol = GlycanUtils.isShowRedEnd(structure, theGraphicOptions, show_redend);
 		
 		//this.assignID(structure);
 			
@@ -116,7 +104,7 @@ public class GlycanRendererAWT extends AbstractGlycanRenderer {
 			//paintComposition(paintable, structure.getRoot(), structure.getBracket(),
 			//		selected_residues, posManager, bboxManager);
 		}else {
-			paintResidue(paintable, structure.getRoot(show_redend),
+			paintResidue(paintable, structure.getRoot(a_bIsAlditol),
 					selected_residues, selected_linkages, active_residues,
 					posManager, bboxManager);
 			paintBracket(paintable, structure, selected_residues,

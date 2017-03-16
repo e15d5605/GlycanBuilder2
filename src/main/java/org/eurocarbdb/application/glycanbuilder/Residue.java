@@ -1352,6 +1352,13 @@ public class Residue {
 			link.setAnomericCarbon(child.getParentLinkage().getChildPositionsSingle());
 			link.getBonds().get(0).setProbabilityHigh(bonds.iterator().next().getProbabilityHigh());
 			link.getBonds().get(0).setProbabilityLow(bonds.iterator().next().getProbabilityLow());
+			
+			try {
+				link.setParentLinkageType(child.getParentLinkage().getParentLinkageType());
+				link.setChildLinkageType(child.getParentLinkage().getChildLinkageType());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		
 		children_linkages.add(link);
@@ -1477,6 +1484,10 @@ public class Residue {
 		// remove child from this node
 		int ind = indexOf(toremove);
 		if( ind!=-1 ) {
+			Linkage parent_link_bk = 
+					(toremove.getType().getSuperclass().equals("Bridge") && toremove.hasChildren()) ? 
+							toremove.parent_linkage : null;
+			
 			// unlink child from this node
 			children_linkages.remove(ind);
 			toremove.parent_linkage = null;
@@ -1507,6 +1518,9 @@ public class Residue {
 			else {
 				for( int l=0; l<toremove.getNoChildren(); l++ ){
 					Linkage grand_child_link = toremove.children_linkages.get(l);
+					if(parent_link_bk != null)
+						grand_child_link.getBonds().get(0).setParentPositions(new char[] {parent_link_bk.getParentPositionsSingle()});
+					
 					this.children_linkages.add(ind+l,grand_child_link);
 					grand_child_link.setParentResidue(this);
 				}

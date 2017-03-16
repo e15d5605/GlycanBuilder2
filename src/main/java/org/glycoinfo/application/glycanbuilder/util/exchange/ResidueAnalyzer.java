@@ -268,15 +268,17 @@ public class ResidueAnalyzer {
 		this.a_mPosToChar.put(a_iModPos, a_cCD);
 	}
 	
-	private char convertModificationNameToCarbonDescriptor(String a_sMOD) throws GlycoconjugateException, ConverterExchangeException {
-		ModificationType a_enumModType = ModificationType.forName(a_sMOD.equals("ulo") ? "keto" : a_sMOD);
-		
-		if(a_enumModType == ModificationType.DEOXY_METHYL) return 'd';
-		if(a_enumModType == ModificationType.DEOXY) return 'd';
-		if(a_enumModType == ModificationType.ALDI) return 'h';
-		if(a_enumModType == ModificationType.KETO) return 'O';
-		if(a_enumModType == ModificationType.ACID) return 'A';
-		
+	private char convertModificationNameToCarbonDescriptor(String a_sMOD) throws GlycoconjugateException, ConverterExchangeException {				
+		try {
+			ModificationType a_enumModType = ModificationType.forName(a_sMOD.equals("ulo") ? "keto" : a_sMOD);		
+			if(a_enumModType == ModificationType.DEOXY) return 'd';
+			if(a_enumModType == ModificationType.ALDI) return 'h';
+			if(a_enumModType == ModificationType.KETO) return 'O';
+			if(a_enumModType == ModificationType.ACID) return 'A';
+		}catch (GlycoconjugateException e){
+			if(a_sMOD.equals("m")) return 'd';
+		}
+
 		return ' ';
 	}
 	

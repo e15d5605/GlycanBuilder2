@@ -70,7 +70,7 @@ public class GlycanToWURCSGraphTester {
 		BuilderWorkspace a_objBW = new BuilderWorkspace(new GlycanRendererAWT());
 		a_objBW.initData();
 
-		String a_sPath = "";//"src/test/java/WURCS2.0Sample";
+		String a_sPath = "src/test/java/WURCS2.0Sample";
 		
 		if(new File(a_sPath).isFile()) {
 			LinkedHashMap<String, String> wurcsIndex = openString(a_sPath);

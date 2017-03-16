@@ -68,9 +68,9 @@ public abstract class AbstractGlycanRenderer implements GlycanRenderer{
 		theResidueStyleDictionary.loadStyles(FileConstants.RESIDUE_STYLES_FILE_SNFG);
 		theResiduePlacementDictionary.loadPlacements(FileConstants.RESIDUE_PLACEMENTS_FILE_SNFG);
 		theLinkageStyleDictionary.loadStyles(FileConstants.LINKAGE_STYLES_FILE_SNFG);
-		theResidueStyleDictionary.loadStyles(FileConstants.RESIDUE_STYLES_FILE_CFGLINK);
-		theResiduePlacementDictionary.loadPlacements(FileConstants.RESIDUE_PLACEMENTS_FILE_CFGLINK);
-		theLinkageStyleDictionary.loadStyles(FileConstants.LINKAGE_STYLES_FILE_CFGLINK);
+		//theResidueStyleDictionary.loadStyles(FileConstants.RESIDUE_STYLES_FILE_CFGLINK);
+		//theResiduePlacementDictionary.loadPlacements(FileConstants.RESIDUE_PLACEMENTS_FILE_CFGLINK);
+		//theLinkageStyleDictionary.loadStyles(FileConstants.LINKAGE_STYLES_FILE_CFGLINK);
 
 		initialiseRenderers();
 	}

@@ -305,7 +305,7 @@ public class GlycanDocument extends BaseDocument implements SAXUtils.SAXWriter {
 	private Residue addStructure(Residue root, boolean fire) {
 		if (root == null) return null;
 		if (root.isReducingEnd() && !root.hasChildren()) return null;
-
+		
 		// add a structure
 		Glycan new_structure = new Glycan(root, true,
 				theWorkspace.getDefaultMassOptions());
@@ -827,7 +827,7 @@ public class GlycanDocument extends BaseDocument implements SAXUtils.SAXWriter {
 		if (toremove == null) return false;
 
 		boolean removed = false;	
-		for(Glycan elm_Glycan : this.structures) {
+		for(Glycan elm_Glycan : (LinkedList<Glycan>) this.structures.clone()) {
 			int index = this.structures.indexOf(elm_Glycan);
 			if(elm_Glycan.removeResidues(toremove)) {
 				if(elm_Glycan.isEmpty()) {

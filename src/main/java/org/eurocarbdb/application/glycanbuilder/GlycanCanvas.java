@@ -3605,7 +3605,13 @@ public class GlycanCanvas extends JComponent implements ActionListener,
 	 */
 	public void onAddStructure(String name) {
 		try {
-			theDoc.addStructure(CoreDictionary.newCore(name));
+			Residue a_oNewStructure = CoreDictionary.newCore(name);
+			if(a_oNewStructure.isReducingEnd() && a_oNewStructure.getTypeName().equals("redEnd")) {
+				a_oNewStructure.firstChild().setAlditol(true);
+				a_oNewStructure.firstChild().setAnomericState('?');
+				a_oNewStructure.firstChild().setRingSize('o');
+			}
+			theDoc.addStructure(a_oNewStructure);
 		} catch (Exception e) {
 			LogUtils.report(e);
 		}

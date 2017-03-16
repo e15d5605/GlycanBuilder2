@@ -36,10 +36,6 @@ import org.eurocarbdb.application.glycanbuilder.massutil.MassUtils;
 import org.eurocarbdb.application.glycanbuilder.massutil.Molecule;
 import org.eurocarbdb.application.glycanbuilder.util.SAXUtils;
 import org.eurocarbdb.application.glycanbuilder.util.XMLUtils;
-import org.glycoinfo.WURCSFramework.util.array.mass.WURCSMassCalculator;
-import org.glycoinfo.WURCSFramework.wurcs.graph.Backbone;
-import org.glycoinfo.application.glycanbuilder.util.exchange.ResidueToBackbone;
-import org.glycoinfo.application.glycanbuilder.util.exchange.ResidueToModification;
 
 import java.util.*;
 
@@ -1365,7 +1361,7 @@ public class Glycan implements Comparable, SAXUtils.SAXWriter, MassAware {
 		
 		double mass=0.;
 		
-		if(!node.isRepetition() && !(node.isReducingEnd() && node.isComposition())){
+		if(!node.isRepetition() || checkCompositionResidue(node)){
 			mass =  type.getMass();
 		}
 		
@@ -1420,15 +1416,36 @@ public class Glycan implements Comparable, SAXUtils.SAXWriter, MassAware {
 			if(isDehydrationBond(l)) {
 				mass -= MassUtils.water.getMass()*l.getNoBonds()*multipler; // remove a water molecule for each bond
 			}
+			
+			if(!l.getChildResidue().getType().getComposition().contains("O")) { 
+				if(l.getParentLinkageType().equals(LinkageType.H_AT_OH) || l.getParentLinkageType().equals(LinkageType.H_LOSE)) {
+					mass += MassUtils.water.getMass()*l.getNoBonds()*multipler;
+					mass -= MassUtils.hydrogen.getMass()*l.getNoBonds()*multipler*2;
+				}
+			}
 			mass += computeMass(l.getChildResidue(),multipler);
 		}
 		
 		return mass;
 	}
 
+	private boolean checkCompositionResidue (Residue node) {
+		if(node.isComposition()) {
+			//if(node.isReducingEnd()) return false;
+			if(node.isBracket()) return false;
+			return true;
+		}
+		
+		return false;
+	}
+	
 	private boolean isDehydrationBond(Linkage childLinkage) {
-		if(childLinkage.getChildResidue().isRepetition()) return false;
-		if(childLinkage.getChildResidue().isComposition()) return false;
+		Residue child = childLinkage.getChildResidue();
+		if(child.isRepetition()) return false;
+		if(child.isComposition()) { 
+			if(child.getParentsOfFragment().isEmpty()) return false;
+			if(child.getParentsOfFragment().contains(child) && child.getParentsOfFragment().size() == 1) return false;
+		}
 		
 		return true;
 	}

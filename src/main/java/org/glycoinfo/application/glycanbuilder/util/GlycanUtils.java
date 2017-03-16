@@ -8,6 +8,7 @@ import org.eurocarbdb.application.glycanbuilder.Glycan;
 import org.eurocarbdb.application.glycanbuilder.Residue;
 import org.eurocarbdb.application.glycanbuilder.ResidueStyleDictionary;
 import org.eurocarbdb.application.glycanbuilder.linkage.Linkage;
+import org.eurocarbdb.application.glycanbuilder.util.GraphicOptions;
 import org.glycoinfo.application.glycanbuilder.dataset.NonSymbolicResidueDictionary;
 
 public class GlycanUtils {
@@ -46,12 +47,28 @@ public class GlycanUtils {
 	
 	public static boolean isFacingAnom (Residue a_oRES) {
 		boolean ret = false;
+		
+		if(a_oRES.hasParent() && !a_oRES.getParent().isReducingEnd()) return ret;
+		
 		for(Linkage a_oLIN : a_oRES.getChildrenLinkages()) {
 			if(!a_oLIN.getChildResidue().isSaccharide() && 
 					!a_oLIN.getChildResidue().getType().getSuperclass().equals("Bridge")) continue;
 			if(a_oLIN.getChildPositionsSingle() == a_oLIN.getChildResidue().getAnomericCarbon() && 
 					a_oLIN.getParentPositionsSingle() == a_oRES.getAnomericCarbon())
 				ret = true;
+		}
+		
+		return ret;
+	}
+	
+	public static boolean isShowRedEnd (Glycan a_oGlycan, GraphicOptions theGraphicOptions, boolean show_redend) {
+		Residue a_oRoot = a_oGlycan.getRoot().firstChild();
+		boolean ret = show_redend;
+		
+		if(a_oRoot.isSaccharide() && isFacingAnom(a_oRoot)) ret = false;
+		if(a_oRoot.isStartCyclic()) ret = false;
+		if(theGraphicOptions.NOTATION.equals(GraphicOptions.NOTATION_SNFG)) {
+			if(a_oGlycan.getRoot().firstChild().isAlditol()) ret = false;
 		}
 		
 		return ret;

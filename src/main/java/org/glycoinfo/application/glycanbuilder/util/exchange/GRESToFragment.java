@@ -66,7 +66,7 @@ public class GRESToFragment extends GLINToLinkage{
 		}
 		
 		/** set root of fragments */
-		if(this.getParents().size() > 1) {
+		if(this.getParents().size() > 1 && !getParents().contains(a_oGRES)) {
 			this.a_aRootOfFragments.add(a_oGRES);
 		}
 		
@@ -88,6 +88,9 @@ public class GRESToFragment extends GLINToLinkage{
 			this.a_aRootOfCompositions.add(a_oGRES);
 		}
 		
+		/** composition Lv2, 3, 4 */
+		if(getParents().contains(a_oGRES)) this.a_aRootOfCompositions.add(a_oGRES);
+		
 		return;
 	}
 	
@@ -108,17 +111,26 @@ public class GRESToFragment extends GLINToLinkage{
 		this.a_oGRES = a_oGRES;
 		
 		if(!a_oGRES.getAcceptorGLINs().isEmpty()) {
-			for(GRES a_oDGRES : a_oGRES.getAcceptorGLINs().getFirst().getDonor()) {
-				if(a_oDGRES.getID() - a_oGRES.getID() == 1) continue;
-				this.a_aAcceptorGRESs.add(a_oDGRES);
+			LinkedList<GLIN> a_aGLINs = a_oGRES.getAcceptorGLINs();
+			if(a_aGLINs.getFirst().getDonor().contains(a_oGRES)) {
+				this.a_aAcceptorGRESs.addAll(a_aGLINs.getFirst().getDonor());
+			}else {
+				for(GRES a_oDGRES : a_oGRES.getAcceptorGLINs().getFirst().getDonor()) {
+					if(a_oDGRES.getID() - a_oGRES.getID() == 1) continue;
+					this.a_aAcceptorGRESs.add(a_oDGRES);
+				}				
 			}
 		}		
-		
+			
 		for(GLIN a_oDGLIN : a_oGRES.getDonorGLINs()) {
 			if(a_oDGLIN.isRepeat() || this.isFacingBetweenAnomer(a_oDGLIN)) continue;
 			if(a_oDGLIN.getAcceptor().size() < 2) continue;
-			else this.a_aAcceptorGRESs.addAll(a_oDGLIN.getAcceptor());
+			else {
+				for(GRES a_oAcceptor : a_oDGLIN.getAcceptor())
+					if(!this.a_aAcceptorGRESs.contains(a_oAcceptor)) this.a_aAcceptorGRESs.add(a_oAcceptor);
+			}
 		}
+		
 	}
 	
 	private void init() {

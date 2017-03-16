@@ -3,6 +3,7 @@ package org.glycoinfo.application.glycanbuilder.util.exchange;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import org.eurocarbdb.MolecularFramework.sugar.LinkageType;
 import org.eurocarbdb.application.glycanbuilder.Residue;
 import org.eurocarbdb.application.glycanbuilder.dataset.ResidueDictionary;
 import org.eurocarbdb.application.glycanbuilder.linkage.Linkage;
@@ -118,13 +119,17 @@ public class SUBSTAnalyzer {
 		
 		a_oLIN.setLinkagePositions(a_cPositions);
 		
+		/** set LinkageType */
+		a_oLIN.setParentLinkageType(checkLinkageTypeOfMAP(a_oSUBST, a_oMS));
+		a_oLIN.setChildLinkageType(LinkageType.NONMONOSACCHARID);
+
+		/** set probability annotation */
+		this.extractProbabilityAnnotation(a_oSUBST, a_oMS, a_oLIN);
+
 		Residue a_oSUB = ResidueDictionary.newResidue(a_enumST.getIUPACnotation());
 		this.checkNode(a_oSUB, a_enumST.getIUPACnotation());
 		a_oSUB.setParentLinkage(a_oLIN);
 		a_oRES.addChild(a_oSUB, a_oSUB.getParentLinkage().getBonds());
-			
-		/** set probability annotation */
-		this.extractProbabilityAnnotation(a_oSUBST, a_oMS, a_oSUB.getParentLinkage());
 		
 		return;
 	}
@@ -234,6 +239,21 @@ public class SUBSTAnalyzer {
 		}
 		
 		return a_bIsNtype;
+	}
+	
+	private LinkageType checkLinkageTypeOfMAP (SUBST a_oSUBST, MS a_oMS) {
+		String a_sSC = a_oMS.getSkeletonCode();
+		int a_iPos = a_oSUBST.getPositions().getFirst();
+		
+		if(a_iPos != -1) {
+			try {
+				if(Integer.parseInt(String.valueOf(a_sSC.charAt(a_iPos - 1))) > 4) return LinkageType.H_LOSE;
+			} catch (NumberFormatException e) {}
+		}
+		
+		if(a_oSUBST.getMAP().startsWith("*O")) return LinkageType.H_AT_OH;
+		
+		return LinkageType.DEOXY;
 	}
 	
 	private boolean isNTypes(SubstituentTemplate a_enumST) {

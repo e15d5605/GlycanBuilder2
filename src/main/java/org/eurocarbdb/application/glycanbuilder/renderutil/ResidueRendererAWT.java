@@ -35,7 +35,6 @@ import org.eurocarbdb.application.glycanbuilder.Residue;
 import org.eurocarbdb.application.glycanbuilder.ResidueStyle;
 import org.eurocarbdb.application.glycanbuilder.ResidueStyleDictionary;
 import org.eurocarbdb.application.glycanbuilder.ResidueType;
-import org.eurocarbdb.application.glycanbuilder.linkage.Linkage;
 import org.eurocarbdb.application.glycanbuilder.util.GraphicOptions;
 import org.eurocarbdb.application.glycanbuilder.util.GraphicUtils;
 import org.eurocarbdb.application.glycanbuilder.util.TextUtils;
@@ -224,7 +223,12 @@ public class ResidueRendererAWT extends AbstractResidueRenderer {
     		if( shape!=null ) 
     			font_size = sat(8 * font_size * cur_bbox.width / x_size / 10,font_size);
 
-    		Font new_font = new Font(theGraphicOptions.NODE_FONT_FACE,Font.PLAIN,font_size);
+    		Font new_font = null;
+    		if(a_bIsSNFG && node.isAlditol() && text.equals("o")) {
+    			new_font = new Font(theGraphicOptions.NODE_FONT_FACE, Font.ITALIC, font_size);
+    		}else
+	    		new_font = new Font(theGraphicOptions.NODE_FONT_FACE,Font.PLAIN,font_size);
+    		
     		Font old_font = g2d.getFont();
     		g2d.setFont(new_font);
 
@@ -263,38 +267,43 @@ public class ResidueRendererAWT extends AbstractResidueRenderer {
     	boolean a_bIsShow = false;
     	if(node.isSaccharide()) a_bIsShow = GlycanUtils.isFacingAnom(node);
     	if(!theGraphicOptions.SHOW_REDEND_CANVAS && node.isSaccharide()) {
-    		a_bIsShow = (node.getTreeRoot().firstChild().equals(node) && !node.isAlditol());
+    		a_bIsShow = (node.getTreeRoot().firstChild().equals(node) && !node.isAlditol() && !node.getTreeRoot().isBracket());
     	}
     	
     	/** draw anomeric state */
-    	if(shape != null && a_bIsShow == true) {
-    		String a_sAnom = TextUtils.toGreek(node.getAnomericState());
-    		Font old_font = g2d.getFont();
-    		Font new_font = new Font(theGraphicOptions.LINKAGE_INFO_FONT_FACE,Font.PLAIN,theGraphicOptions.LINKAGE_INFO_SIZE);
-    		Rectangle2D.Double text_bound = new Rectangle2D.Double();
-
-    		g2d.setFont(new_font);
-    		text_bound.setRect(new TextLayout(TextUtils.toGreek(node.getAnomericState()),new_font,g2d.getFontRenderContext()).getBounds());
-
-    		Rectangle2D.Double text_rect = null;
-    		int a_iXmargine = 0;
-    		if(orientation.equals(0) || orientation.equals(180)) {
-    			a_iXmargine = (orientation.equals(0)) ? -15 : 15;
-    			text_rect = new Rectangle2D.Double(midx(cur_bbox)-text_bound.width/2,midy(cur_bbox)-text_bound.height/2,text_bound.width,text_bound.height);
-    			g2d.drawString(a_sAnom, (int)text_rect.x + a_iXmargine, (int)(text_rect.y + text_rect.height));
-    		} else {
-    			a_iXmargine = (orientation.equals(90)) ? -15 : 15;
-    			text_rect = new Rectangle2D.Double(midx(cur_bbox)-text_bound.height/2,midy(cur_bbox)-text_bound.width/2,text_bound.height,text_bound.width);
-
-    			g2d.rotate(-Math.PI/2.0); 
-    			g2d.drawString(a_sAnom,-(int)(text_rect.y+text_rect.height + a_iXmargine),(int)(text_rect.x+text_rect.width));
-    			g2d.rotate(+Math.PI/2.0); 
-    		}
-			
-    		g2d.setFont(old_font);
-    	}
+    	if(shape != null && a_bIsShow == true) 
+    		showAnomericState(g2d, node, orientation, cur_bbox);
     	
     	//g2d.setColor(Color.black);
     	//g2d.drawString(""+node.id,left(cur_bbox),bottom(cur_bbox));
+    }
+    
+    private Graphics2D showAnomericState(Graphics2D g2d, Residue node, ResAngle orientation, Rectangle cur_bbox) {
+    	String a_sAnom = TextUtils.toGreek(node.getAnomericState());
+		Font old_font = g2d.getFont();
+		Font new_font = new Font(theGraphicOptions.LINKAGE_INFO_FONT_FACE,Font.PLAIN,theGraphicOptions.LINKAGE_INFO_SIZE);
+		Rectangle2D.Double text_bound = new Rectangle2D.Double();
+
+		g2d.setFont(new_font);
+		text_bound.setRect(new TextLayout(TextUtils.toGreek(node.getAnomericState()),new_font,g2d.getFontRenderContext()).getBounds());
+
+		Rectangle2D.Double text_rect = null;
+		int a_iXmargine = 0;
+		if(orientation.equals(0) || orientation.equals(180)) {
+			a_iXmargine = (orientation.equals(0)) ? -15 : 15;
+			text_rect = new Rectangle2D.Double(midx(cur_bbox)-text_bound.width/2,midy(cur_bbox)-text_bound.height/2,text_bound.width,text_bound.height);
+			g2d.drawString(a_sAnom, (int)text_rect.x + a_iXmargine, (int)(text_rect.y + text_rect.height));
+		} else {
+			a_iXmargine = (orientation.equals(90)) ? -15 : 15;
+			text_rect = new Rectangle2D.Double(midx(cur_bbox)-text_bound.height/2,midy(cur_bbox)-text_bound.width/2,text_bound.height,text_bound.width);
+
+			g2d.rotate(-Math.PI/2.0); 
+			g2d.drawString(a_sAnom,-(int)(text_rect.y+text_rect.height + a_iXmargine),(int)(text_rect.x+text_rect.width));
+			g2d.rotate(+Math.PI/2.0); 
+		}
+		
+		g2d.setFont(old_font);
+		
+		return g2d;
     }
 }
