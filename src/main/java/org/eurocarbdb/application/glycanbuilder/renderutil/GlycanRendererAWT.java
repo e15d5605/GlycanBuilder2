@@ -91,7 +91,7 @@ public class GlycanRendererAWT extends AbstractGlycanRenderer {
 		if(!structure.isComposition())
 			a_bIsAlditol = GlycanUtils.isShowRedEnd(structure, theGraphicOptions, show_redend);
 		
-		//this.assignID(structure);
+		this.assignID(structure);
 			
 		selected_residues = (selected_residues != null) ? selected_residues
 				: new HashSet<Residue>();
@@ -110,8 +110,8 @@ public class GlycanRendererAWT extends AbstractGlycanRenderer {
 			paintBracket(paintable, structure, selected_residues,
 					selected_linkages, active_residues, posManager, bboxManager);
 		}
-		//if(theGraphicOptions.NOTATION.equals(GraphicOptions.NOTATION_SNFG))
-		//	displayLegend(paintable, structure, show_redend, bboxManager);
+		if(theGraphicOptions.NOTATION.equals(GraphicOptions.NOTATION_SNFG))
+			displayLegend(paintable, structure, show_redend, bboxManager);
 		if (show_mass)
 			displayMass(paintable, structure, show_redend, bboxManager);
 	}
