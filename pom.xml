@@ -30,7 +30,13 @@
 				<checksumPolicy>warn</checksumPolicy>
 			</snapshots>
 		</repository>
-
+		<repository>
+			<id>org.glycoinfo</id>
+			<url>https://glycoinfo.gitlab.io/wurcsframework</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
 		<!-- <repository> <id>repository.jboss.org-public</id> <name>JBoss.org 
 			Maven repository</name> <url>https://repository.jboss.org/nexus/content/groups/public</url> 
 			</repository> -->
@@ -212,12 +218,12 @@
 		<dependency>
 			<groupId>org.glycoinfo</groupId>
 			<artifactId>wurcsframework</artifactId>
-			<version>0.0.6-SNAPSHOT</version>
+			<version>1.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eurocarbdb</groupId>
 			<artifactId>MolecularFramework</artifactId>
-			<version>0.1-b36-SNAPSHOT</version>
+			<version>0.1-b37-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.glycoinfo.WURCSFramework</groupId>

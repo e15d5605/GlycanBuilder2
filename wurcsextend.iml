@@ -11,7 +11,10 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: org.glycoinfo:wurcsframework:0.0.6-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.glycoinfo:wurcsframework:1.0.1" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.25" level="project" />
+    <orderEntry type="library" name="Maven: ch.qos.logback:logback-classic:1.2.3" level="project" />
+    <orderEntry type="library" name="Maven: ch.qos.logback:logback-core:1.2.3" level="project" />
     <orderEntry type="library" name="Maven: org.eurocarbdb:MolecularFramework:0.1-b36-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-api:2.2" level="project" />
     <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-core:2.2" level="project" />
@@ -78,7 +81,9 @@
     <orderEntry type="library" name="Maven: com.opensymphony:xwork:2.1.3" level="project" />
     <orderEntry type="library" name="Maven: opensymphony:ognl:2.6.11" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-test:2.5.6" level="project" />
-    <orderEntry type="library" name="Maven: org.glycoinfo.convert:glycanformatconverter:0.1.4-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.glycoinfo.convert:glycanformatconverter:2.5.2" level="project" />
+    <orderEntry type="library" name="Maven: commons-collections:commons-collections:20040616" level="project" />
+    <orderEntry type="library" name="Maven: org.json:json:20180813" level="project" />
     <orderEntry type="library" name="Maven: org.apache.ant:ant-launcher:1.9.7" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.swt:org.eclipse.swt.cocoa.macosx.x86_64:4.3" level="project" />
   </component>
