@@ -64,6 +64,7 @@
 
 	<reporting>
 		<plugins>
+			<!--
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
@@ -73,6 +74,7 @@
 					<docencoding>UTF-8</docencoding>
 				</configuration>
 			</plugin>
+			-->
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
