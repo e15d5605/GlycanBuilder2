@@ -1,0 +1,33 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+}
+
+group 'org.eurocarbdb.glycanbuilder'
+version '1.0.4'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "GlycanBuilder2"
+            url = uri("https://maven.pkg.github.com/e15d5605/GlycanBuilder2")
+            credentials {
+                // GitHubのユーザー名を指定する
+                username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
+                // GitHubの認証用トークンを指定する
+                password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+    publications {
+        gpr(MavenPublication) {
+            from(components.java)
+        }
+    }
+}

@@ -8,7 +8,7 @@
 
 	<groupId>org.eurocarbdb.glycanbuilder</groupId>
 	<artifactId>wurcsextend</artifactId>
-	<version>1.0.4-SNAPSHOT</version>
+	<version>1.0.4</version>
 	<packaging>jar</packaging>
 
 	<properties>
@@ -38,6 +38,12 @@
 
 	<distributionManagement>
 		<repository>
+			<id>github</id>
+			<name>GitHub OWNER Apache Maven Packages</name>
+			<url>https://maven.pkg.github.com/OWNER/REPOSITORY</url>
+		</repository>
+		<!--
+		<repository>
 			<id>glycoinfo</id>
 			<name>Internal Releases</name>
 			<url>http://nexus.glycoinfo.org/content/repositories/releases</url>
@@ -47,6 +53,7 @@
 			<name>Internal Release Snapshots</name>
 			<url>http://nexus.glycoinfo.org/content/repositories/snapshots</url>
 		</snapshotRepository>
+		-->
 	</distributionManagement>
 
 	<reporting>
