@@ -19,8 +19,6 @@
     <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-api:2.2" level="project" />
     <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-core:2.2" level="project" />
     <orderEntry type="library" name="Maven: org.glycomedb:residuetranslator:0.1-b12" level="project" />
-    <orderEntry type="library" name="Maven: org.glycoinfo.WURCSFramework:GlycoCTToWURCS:0.0.2-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: org.jdom:jdom2:2.0.5" level="project" />
     <orderEntry type="library" name="Maven: org.glycoinfo.eurocarbdb.depends:flamingo:0.1" level="project" />
     <orderEntry type="library" name="Maven: org.apache.xmlgraphics:fop:2.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.xmlgraphics:xmlgraphics-commons:2.0.1" level="project" />
