@@ -2,3 +2,7 @@
 target
 wurcsextend.iml
 log4j.properties
+.gradle/*
+gradlew
+gradlew.bat
+gradle/*
