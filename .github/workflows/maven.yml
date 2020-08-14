@@ -25,6 +25,6 @@ jobs:
 
       - name: Deploy with Maven
         run: mvn deploy --settings settings.xml
-          env:
-            GITHUB_USERNAME: $GITHUB_REPOSITORY
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          GITHUB_USERNAME: $GITHUB_REPOSITORY
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
