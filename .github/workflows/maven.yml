@@ -26,7 +26,7 @@ jobs:
       - name: Deploy with Maven
         run: |
           mkdir -p ~/.m2
-          cp --settings setting.xml ~/.m2/
+          cp setting.xml ~/.m2/
           mvn -B deploy
         env:
           GITHUB_USERNAME: $GITHUB_ACTOR
