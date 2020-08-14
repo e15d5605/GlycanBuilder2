@@ -9,11 +9,6 @@ on:
   pull_request:
     branches: [ master ]
 
-cache:
-  paths:
-    - .m2/repository/
-    - target/
-
 jobs:
   build:
 
