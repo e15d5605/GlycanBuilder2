@@ -9,6 +9,11 @@ on:
   pull_request:
     branches: [ master ]
 
+cache:
+  paths:
+    - .m2/repository/
+    - target/
+
 jobs:
   build:
 
@@ -26,5 +31,5 @@ jobs:
       - name: Deploy with Maven
         run: mvn deploy --settings settings.xml
         env:
-          GITHUB_USERNAME: $GITHUB_REPOSITORY
+          GITHUB_USERNAME: $GITHUB_ACTOR
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
