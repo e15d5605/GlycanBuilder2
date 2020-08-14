@@ -24,7 +24,10 @@ jobs:
         run: mvn -B package --file pom.xml
 
       - name: Deploy with Maven
-        run: mvn deploy --settings settings.xml
+        run: |
+          mkdir -p ~/.m2
+          cp --settings setting.xml ~/.m2/
+          mvn -B deploy
         env:
           GITHUB_USERNAME: $GITHUB_ACTOR
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
