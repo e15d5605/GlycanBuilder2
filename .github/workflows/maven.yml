@@ -25,8 +25,9 @@ jobs:
 
       - name: Deploy with Maven
         run: |
-          REPO="gh::default::https://maven.pkg.github.com/${GITHUB_REPOSITORY}"
-          mvn deploy -DaltReleaseDeploymentRepository="${REPO}" -DaltSnapshotDeploymentRepository="${REPO}"
+#          REPO="gh::default::https://maven.pkg.github.com/${GITHUB_REPOSITORY}"
+#          mvn deploy -DaltReleaseDeploymentRepository="${REPO}" -DaltSnapshotDeploymentRepository="${REPO}"
+           mvn deploy --settings .m2/settings.xml
         env:
           GITHUB_USERNAME: $GITHUB_ACTOR
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
